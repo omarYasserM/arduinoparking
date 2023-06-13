@@ -1,39 +1,82 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-    <head>
-        
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js'></script>
-        
-        <style>
-        
-            #sample {
-                background-color: red;
-                width: 300px;
-                height: 300px;
-            }
-        
-        </style>
-        
-    </head>
-    <body>
-        
-        <h1>Communicating from an Arduino to Node.js</h1>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
 
-        <div id="sample"></div>
-        
-        <script>
-            
-        var socket = io();
+    <style>
+      #parking {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        width: 100%;
+      }
+      #parking > * {
+        width: 250px;
+        height: 70px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="header">parking have free slots</h1>
+    <h2 id="income">income:</h2>
+    <div id="parking">
+      <div id="s1"></div>
+      <div id="s2"></div>
+      <div id="s3"></div>
+      <div id="s4"></div>
+      <div id="s5"></div>
+      <div id="s6"></div>
+    </div>
 
-        socket.on('data', function(data) {
-            
-            console.log(data);
-            
-            document.getElementById('sample').style.opacity = data+"%"; 
+    <script>
+      var socket = io();
 
-        });
-        
-        </script>
-        
-    </body>
+      socket.on("data", function (data) {
+        var cost1 = 0;
+        var cost2 = 0;
+        var cost3 = 0;
+        var cost4 = 0;
+        var cost5 = 0;
+        var cost6 = 0;
+
+        if (!data.includes("1")) {
+          document.getElementById("s1").style.backgroundColor = "green";
+        } else {
+          document.getElementById("s1").style.backgroundColor = "red";
+        }
+        if (!data.includes("2")) {
+          document.getElementById("s2").style.backgroundColor = "green";
+        } else {
+          document.getElementById("s2").style.backgroundColor = "red";
+        }
+        if (!data.includes("3")) {
+          document.getElementById("s3").style.backgroundColor = "green";
+        } else {
+          document.getElementById("s3").style.backgroundColor = "red";
+        }
+        if (!data.includes("4")) {
+          document.getElementById("s4").style.backgroundColor = "green";
+        } else {
+          document.getElementById("s4").style.backgroundColor = "red";
+        }
+        if (!data.includes("5")) {
+          document.getElementById("s5").style.backgroundColor = "green";
+        } else {
+          document.getElementById("s5").style.backgroundColor = "red";
+        }
+        if (!data.includes("6")) {
+          document.getElementById("s6").style.backgroundColor = "green";
+        } else {
+          document.getElementById("s6").style.backgroundColor = "red";
+        }
+        console.log(data.length);
+        if (data.length === 6) {
+          document.getElementById("header").innerHTML = "parking is full";
+        } else {
+          document.getElementById("header").innerHTML =
+            "parking have free slots";
+        }
+      });
+    </script>
+  </body>
 </html>
